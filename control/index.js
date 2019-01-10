@@ -1,6 +1,7 @@
 const Fs = require('fs');
 const Request = require('request-promise');
 const Base = 'https://Api.weixin.qq.com/cgi-bin/';
+const mpBase = 'https://mp.weixin.qq.com/cgi-bin/';
 const Api = {
     accessToken: Base + 'token?grant_type=client_credential',
     temporary: {
@@ -32,6 +33,10 @@ const Api = {
         remark: Base + 'user/info/updateremark?',
         info: Base + 'user/info?',
         batch: Base + 'user/info/batchget?',
+    },
+    qrcode: {
+        create: Base + 'qrcode/create?',
+        show: mpBase + 'showqrcode?'
     }
 };
 
@@ -295,21 +300,37 @@ module.exports = class WeChat {
         };
     }
     getUserInfo(token, openId, lang = "zh_CN") {
-        let url = `${Api.user.info}access_token=${token}&openid=${openId}&lang=${lang}`;
-        return {
-            url,
-        };
-    }
+            let url = `${Api.user.info}access_token=${token}&openid=${openId}&lang=${lang}`;
+            return {
+                url,
+            };
+        }
+        //批量获取用户的详细信息
     batchUserInfo(token, user_list) {
-        let body = {
-            user_list,
-        };
-        let url = `${Api.user.batch}access_token=${token}`;
-        return {
-            method: 'POST',
-            url,
-            body,
-        };
+            let body = {
+                user_list,
+            };
+            let url = `${Api.user.batch}access_token=${token}`;
+            return {
+                method: 'POST',
+                url,
+                body,
+            };
+        }
+        //创建二维码 ticket
+    createQrcode(token, qr) {
+            const url = Api.qrcode.create + 'access_token=' + token
+            const body = qr
+            return {
+                method: 'POST',
+                url,
+                body
+            }
+        }
+        //通过toket换取二维码
+    showQrcode(ticket) {
+        const url = Api.qrcode.show + 'ticket=' + encodeURI(ticket)
+        return url
     }
     async handle(operation, ...args) {
         const TokenData = await this.fetchAccessToken();

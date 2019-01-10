@@ -2,8 +2,7 @@ let { resolve } = require('path');
 
 module.exports = async(context, next) => {
     const Message = context.weixin;
-
-    let mp = require('../wechat');
+    let mp = require('../wechat/index.js');
 
     let client = mp.getWeChat();
 
@@ -192,6 +191,19 @@ module.exports = async(context, next) => {
                 lang: 'zh_CN',
             }, ]);
             reply = `${data.user_info_list?JSON.stringify(data):'14.公众号尚未通过微信认证，无法调用接口～'}`;
+        } else if ("15" === content) {
+            let tempQrData = {
+                expire_seconds: 604800,
+                action_name: "QR_SCENE",
+                action_info: {
+                    scene: {
+                        scene_id: 123,
+                    }
+                }
+            };
+            let tempTicketData = await client.handle('createQrcode', tempQrData);
+            let tempQr = client.showQrcode(tempTicketData.ticket);
+            reply = tempQr;
         } else if ("兰洁" === content) {
             reply = "兰洁，我喜欢你";
         }

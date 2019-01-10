@@ -20,7 +20,6 @@ const util = require('./util.js')
     // }
 module.exports = (config, reply) => {
     return async(ctx, next) => {
-        console.log(ctx.query)
         const { signature, timestamp, nonce, echostr } = ctx.query
         const token = config.token
         let str = [token, timestamp, nonce].sort().join('')
@@ -50,7 +49,6 @@ module.exports = (config, reply) => {
             const replyBody = ctx.body
             const msg = ctx.weixin
             const xml = util.tpl(replyBody, msg)
-            console.log(xml)
             ctx.status = 200
             ctx.type = 'application/xml'
                 // ctx.body = `

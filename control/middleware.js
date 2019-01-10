@@ -1,6 +1,6 @@
 const Sha1 = require('sha1');
 const GetRawBody = require('raw-body');
-const Util = require('../control/util');
+const Util = require('./util');
 
 module.exports = (opts, reply) => {
     return async(context, next) => {

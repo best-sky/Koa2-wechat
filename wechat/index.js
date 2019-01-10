@@ -1,4 +1,4 @@
-const Wechat = require('../control/index.js')
+const WeChat = require('../control/index.js')
 const mongoose = require('mongoose')
 
 const Token = mongoose.model('Token')

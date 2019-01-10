@@ -1,5 +1,5 @@
 const Xml2Js = require('xml2js');
-const Template = require('./tpl');
+const Template = require('../wechat/tpl');
 
 const ParseXML = xml => {
     return new Promise((resolve, reject) => {
