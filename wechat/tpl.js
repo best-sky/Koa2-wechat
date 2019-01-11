@@ -6,6 +6,7 @@ const tpl = `
     <ToUserName><![CDATA[<%= toUserName %>]]></ToUserName>
     <FromUserName><![CDATA[<%= fromUserName %>]]></FromUserName>
     <CreateTime><%= createTime %></CreateTime>
+    <MsgType><![CDATA[<%= msgType %>]]></MsgType>
     <% if (msgType === 'text') { %>
         <MsgType><![CDATA[text]]></MsgType>
         <Content><![CDATA[<%= content %>]]></Content>
